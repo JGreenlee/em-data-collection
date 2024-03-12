@@ -1,0 +1,51 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+  <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <!-- COARSE_LOCATION obfuscates the location to a city block, change to FINE_LOCATION for accuracy -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+  <application>
+    <receiver android:name="edu.berkeley.eecs.emission.tracker.BootReceiver" android:enabled="true"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="edu.berkeley.eecs.emission.tracker.location.TripDiaryStateMachineReceiver"
+      android:enabled="true" android:exported="false">
+      <intent-filter>
+        <action android:name="local.transition.initialize" />
+        <action android:name="local.transition.exited_geofence" />
+        <action android:name="local.transition.stopped_moving" />
+        <action android:name="local.transition.stop_tracking" />
+        <action android:name="local.transition.start_tracking" />
+        <action android:name="local.transition.tracking_error" />
+      </intent-filter>
+    </receiver>
+    <service
+      android:name="edu.berkeley.eecs.emission.tracker.location.ActivityRecognitionChangeIntentService"
+      android:enabled="true" android:exported="false" />
+    <service
+      android:name="edu.berkeley.eecs.emission.tracker.location.OPGeofenceExitActivityIntentService"
+      android:enabled="true" android:exported="false" />
+    <service android:name="edu.berkeley.eecs.emission.tracker.location.TripDiaryStateMachineService"
+      android:enabled="true" android:exported="false" />
+    <service
+      android:name="edu.berkeley.eecs.emission.tracker.location.TripDiaryStateMachineServiceOngoing"
+      android:enabled="true" android:exported="false" />
+    <service
+      android:name="edu.berkeley.eecs.emission.tracker.location.TripDiaryStateMachineForegroundService"
+      android:enabled="true" android:foregroundServiceType="location" android:exported="false" />
+    <service android:name="edu.berkeley.eecs.emission.tracker.location.GeofenceExitIntentService"
+      android:enabled="true" android:exported="false" />
+    <service android:name="edu.berkeley.eecs.emission.tracker.location.LocationChangeIntentService"
+      android:enabled="true" android:exported="false" />
+    <service
+      android:name="edu.berkeley.eecs.emission.tracker.location.actions.GeofenceLocationIntentService"
+      android:enabled="true" android:exported="false" />
+  </application>
+</manifest>
